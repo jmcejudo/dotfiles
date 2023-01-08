@@ -5,10 +5,15 @@ alias ls="ls --color=auto"
 alias grep='grep --color=auto'
 alias st='ss -atn'
 
-alias k='kubectl'
-alias h='helm'
-source <(kubectl completion bash)
-source <(helm completion bash)
-source <(kubectl krew completion bash)
-complete -F __start_kubectl k
-complete -F __start_helm h
+if which kubectl &> /dev/null; then
+  alias k='kubectl'
+  source <(kubectl completion bash)
+  complete -F __start_kubectl k
+  which kubectl krew &> /dev/null && source <(kubectl krew completion bash)
+fi
+
+if which helm &> /dev/null; then
+  alias h='helm'
+  source <(helm completion bash)
+  complete -F __start_helm h
+fi

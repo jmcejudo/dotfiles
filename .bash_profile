@@ -2,7 +2,7 @@
 export PATH="$HOME/bin:$PATH";
 
 # Add `~/.krew/bin` to the `$PATH`
-export PATH="$PATH:${HOME}/.krew/bin";
+[ -d ${HOME}/.krew/bin ] && export PATH="$PATH:${HOME}/.krew/bin";
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
