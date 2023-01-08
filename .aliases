@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+alias l="ls -lAF --color=auto"
+alias ls="ls --color=auto"
+alias grep='grep --color=auto'
+alias st='ss -atn'
+
+alias k='kubectl'
+alias h='helm'
+source <(kubectl completion bash)
+source <(helm completion bash)
+source <(kubectl krew completion bash)
+complete -F __start_kubectl k
+complete -F __start_helm h
