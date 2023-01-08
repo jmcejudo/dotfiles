@@ -4,6 +4,9 @@ export PATH="$HOME/bin:$PATH";
 # Add `~/.krew/bin` to the `$PATH`
 [ -d ${HOME}/.krew/bin ] && export PATH="$PATH:${HOME}/.krew/bin";
 
+# Add Rust to the `$PATH`
+[ -d /usr/local/cargo/bin ] && export PATH="$PATH:/usr/local/cargo/bin";
+
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
