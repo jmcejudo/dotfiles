@@ -1,2 +1,13 @@
 #!/usr/bin/env bash
 
+# Exec `kubectl` with a local config file if exists.
+function kubectl_with_var_kubeconfig() {
+
+  configfile="${PWD}/.var/kubeconfig"
+  if [ -f "${configfile}" ]; then
+    KUBECONFIG=${configfile} kubectl $@
+  else
+    kubectl $@
+  fi
+
+}

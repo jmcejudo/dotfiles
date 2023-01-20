@@ -6,7 +6,7 @@ alias grep='grep --color=auto'
 alias st='ss -atn'
 
 if which kubectl &> /dev/null; then
-  alias k='kubectl'
+  alias k='kubectl_with_var_kubeconfig'
   source <(kubectl completion bash)
   complete -F __start_kubectl k
   which kubectl krew &> /dev/null && source <(kubectl krew completion bash)
