@@ -17,3 +17,9 @@ if which helm &> /dev/null; then
   source <(helm completion bash)
   complete -F __start_helm h
 fi
+
+if which terraform &> /dev/null; then
+  alias t='terraform'
+  complete -C /usr/bin/terraform terraform
+  complete -C /usr/bin/terraform t
+fi
