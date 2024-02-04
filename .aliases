@@ -2,8 +2,9 @@
 
 alias l="ls -lAF --color=auto"
 alias ls="ls --color=auto"
-alias grep='grep --color=auto'
-alias st='ss -atn'
+alias grep="grep --color=auto"
+alias st="ss -atn"
+alias p="pnpm"
 
 if which kubectl &> /dev/null; then
   alias k='kubectl_with_var_kubeconfig'
