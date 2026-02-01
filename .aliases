@@ -1,0 +1,89 @@
+# -----------------
+# General Aliases
+# -----------------
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias grep='grep --color=auto'
+alias p='pnpm'
+
+# Create directory and cd into it
+mkcd() { mkdir -p "$1" && cd "$1"; }
+
+# Extract various archive formats
+extract() {
+  if [ -f "$1" ]; then
+    case "$1" in
+      *.tar.bz2) tar xjf "$1" ;;
+      *.tar.gz)  tar xzf "$1" ;;
+      *.tar.xz)  tar xJf "$1" ;;
+      *.bz2)     bunzip2 "$1" ;;
+      *.gz)      gunzip "$1" ;;
+      *.tar)     tar xf "$1" ;;
+      *.tbz2)    tar xjf "$1" ;;
+      *.tgz)     tar xzf "$1" ;;
+      *.zip)     unzip "$1" ;;
+      *.7z)      7z x "$1" ;;
+      *)         echo "'$1' cannot be extracted" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
+
+# -----------------
+# ls Aliases
+# -----------------
+alias ls='ls --color=auto'
+alias l='ls -lF'
+alias la='ls -lAF'
+alias ll='ls -l'
+
+# -----------------
+# Network Aliases
+# -----------------
+alias st='ss -atn'
+alias ports='ss -tulanp'
+
+# -----------------
+# Git Aliases
+# -----------------
+alias g='git'
+alias gs='git status -sb'
+alias ga='git add'
+alias gc='git commit'
+alias gca='git commit --amend'
+alias gcan='git commit --amend --no-edit'
+alias gp='git push'
+alias gpl='git pull'
+alias gd='git diff'
+alias gds='git diff --staged'
+alias gl='git log --oneline -20'
+alias glo='git log --oneline --graph --all'
+alias glast='git log -1 HEAD --stat'
+alias gb='git branch'
+alias gba='git branch -a'
+alias gco='git checkout'
+alias gsw='git switch'
+alias gst='git stash'
+alias gstp='git stash pop'
+alias gstl='git stash list'
+alias gunstage='git reset HEAD --'
+alias gundo='git reset --soft HEAD~1'
+
+# -----------------
+# Utilities
+# -----------------
+alias df='df -h'
+alias du='du -h'
+alias free='free -h'
+alias h='history'
+alias j='jobs -l'
+alias path='echo $PATH | tr ":" "\n"'
+alias reload='source ~/.zshrc'
+alias c='clear'
+
+# Confirm before overwrite
+alias cp='cp -i'
+alias mv='mv -i'
+alias rm='rm -i'

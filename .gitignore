@@ -1,0 +1,14 @@
+# Cache
+.cache/
+
+# Local customizations
+.zshrc.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+*.swo
+*~

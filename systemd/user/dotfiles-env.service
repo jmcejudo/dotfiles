@@ -1,0 +1,14 @@
+[Unit]
+Description=Export DOTFILES_REPO_URL to user systemd environment
+After=graphical-session.target
+Wants=graphical-session.target
+
+[Service]
+Type=oneshot
+ExecStart=__DOTFILES_DIR__/bin/get-dotfiles-env.sh
+RemainAfterExit=yes
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target graphical-session.target
