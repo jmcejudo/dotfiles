@@ -130,7 +130,7 @@ function manage_zsh_plugins() {
             git clone --depth=1 "$plugin_url" "$plugin_dir"
         else
             message "yellow" "Updating plugin '$plugin_name'..."
-            (cd "$plugin_dir" && git pull)
+            (cd "$plugin_dir" && git fetch origin && git reset --hard origin/HEAD)
         fi
     done
 }
@@ -202,7 +202,7 @@ function install_zoxide() {
 function install_fzf() {
     if [[ -d "$FZF_DIR" ]]; then
         message "yellow" "Updating fzf..."
-        (cd "$FZF_DIR" && git pull && ./install --key-bindings --completion --no-update-rc)
+        (cd "$FZF_DIR" && git fetch origin && git reset --hard origin/HEAD && ./install --key-bindings --completion --no-update-rc)
     else
         message "yellow" "Installing fzf..."
         git clone --depth 1 https://github.com/junegunn/fzf.git "$FZF_DIR"
