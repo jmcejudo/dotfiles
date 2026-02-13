@@ -1,6 +1,7 @@
 {
 	"name": "jmcejudo Dotfiles",
 	"image": "mcr.microsoft.com/devcontainers/typescript-node",
+	"containerUser": "node",
 	"remoteUser": "node",
 	"features": {
 		"ghcr.io/ingeniova/devcontainer-features/claude-code:0": {}
