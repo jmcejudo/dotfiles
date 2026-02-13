@@ -1,0 +1,10 @@
+{
+  "enableAllProjectMcpServers": true,
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "env": {
+    "DISABLE_TELEMETRY": "1"
+  }
+}
