@@ -7,11 +7,11 @@
 		"ghcr.io/ingeniova/devcontainer-features/claude-code:0": {}
 	},
 	"mounts": [
-		"source=${localWorkspaceFolder}/.cache/zsh_history,target=/home/node/.zsh_history,type=bind",
-		"source=${localWorkspaceFolder}/.cache/claude.json,target=/home/node/.claude.json,type=bind",
-		"source=${localWorkspaceFolder}/.cache/claude,target=/home/node/.claude,type=bind",
-		"source=${localWorkspaceFolder}/.cache/gemini,target=/home/node/.gemini,type=bind",
-		"source=${localWorkspaceFolder}/.cache/codex,target=/home/node/.codex,type=bind"
+		"source=${localWorkspaceFolder}/.cache/.zsh_history,target=/home/node/.zsh_history,type=bind",
+		"source=${localWorkspaceFolder}/.cache/.claude.json,target=/home/node/.claude.json,type=bind",
+		"source=${localWorkspaceFolder}/.cache/.claude/,target=/home/node/.claude/,type=bind",
+		"source=${localWorkspaceFolder}/.cache/.gemini/,target=/home/node/.gemini/,type=bind",
+		"source=${localWorkspaceFolder}/.cache/.codex/,target=/home/node/.codex/,type=bind"
 	],
 	"initializeCommand": ".devcontainer/initialize.sh",
 	"postCreateCommand": "./bootstrap.sh",

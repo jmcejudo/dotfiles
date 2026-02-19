@@ -9,10 +9,10 @@ CACHE_DIR="$(dirname "$SCRIPT_DIR")/.cache"
 
 # Create cache directories
 mkdir -p \
-    "$CACHE_DIR/claude" \
-    "$CACHE_DIR/gemini" \
-    "$CACHE_DIR/codex"
+    "$CACHE_DIR/.claude" \
+    "$CACHE_DIR/.gemini" \
+    "$CACHE_DIR/.codex"
 
 # Create files that need to exist for bind mounts
-touch "$CACHE_DIR/zsh_history"
-touch "$CACHE_DIR/claude.json"
+touch "$CACHE_DIR/.zsh_history"
+touch "$CACHE_DIR/.claude.json"
