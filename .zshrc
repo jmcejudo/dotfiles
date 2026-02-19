@@ -30,9 +30,9 @@ if [ -f ~/.aliases ]; then
     source ~/.aliases
 fi
 
-# SSH agent (skip in dev containers)
-if [ -z "$REMOTE_CONTAINERS" ]; then
-  export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket
+# SSH agent
+if [ ! -S "${SSH_AUTH_SOCK:-}" ]; then
+  export SSH_AUTH_SOCK=${XDG_RUNTIME_DIR:-/tmp}/ssh-agent.socket
 fi
 
 # Set DOTFILES_REPO_URL with multi-layered fallback
