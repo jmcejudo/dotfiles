@@ -30,9 +30,12 @@ if [ -f ~/.aliases ]; then
     source ~/.aliases
 fi
 
-# SSH agent
+# SSH agent - arrancar si no está corriendo
 if [ ! -S "${SSH_AUTH_SOCK:-}" ]; then
-  export SSH_AUTH_SOCK=${XDG_RUNTIME_DIR:-/tmp}/ssh-agent.socket
+  export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-/tmp}/ssh-agent.socket"
+  if ! ssh-add -l &>/dev/null; then
+    ssh-agent -a "$SSH_AUTH_SOCK" &>/dev/null
+  fi
 fi
 
 # Set DOTFILES_REPO_URL with multi-layered fallback
