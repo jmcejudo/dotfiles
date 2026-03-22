@@ -19,7 +19,6 @@ Personal dotfiles repository for managing zsh shell configuration and environmen
 2. Symlinks `.zshrc` and `.aliases` to home directory
 3. Installs/updates zsh plugins (zsh-autosuggestions, zsh-syntax-highlighting, zsh-completions)
 4. Installs zoxide (smart cd) and fzf (fuzzy finder)
-5. Enables systemd user services (if available)
 
 ## Architecture
 

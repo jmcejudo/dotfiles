@@ -50,7 +50,3 @@ Create `~/.zshrc.local` for machine-specific settings (not tracked in git).
 ## Devcontainer Support
 
 Works automatically in VS Code devcontainers.
-
-## Systemd Integration (Linux host)
-
-The bootstrap installs `dotfiles-env.service` which exports `DOTFILES_REPO_URL` to the systemd environment. Skipped in containers where systemd isn't available.

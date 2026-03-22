@@ -30,30 +30,11 @@ if [ -f ~/.aliases ]; then
     source ~/.aliases
 fi
 
-# SSH agent - arrancar si no está corriendo
-if [ ! -S "${SSH_AUTH_SOCK:-}" ]; then
-  export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-/tmp}/ssh-agent.socket"
-  if ! ssh-add -l &>/dev/null; then
-    ssh-agent -a "$SSH_AUTH_SOCK" &>/dev/null
-  fi
-fi
-
-# Set DOTFILES_REPO_URL with multi-layered fallback
-if [ -z "${DOTFILES_REPO_URL:-}" ]; then
-    # Try systemd environment first
-    if command -v systemctl >/dev/null 2>&1; then
-        DOTFILES_REPO_URL=$(systemctl --user show-environment 2>/dev/null | grep '^DOTFILES_REPO_URL=' | cut -d= -f2- 2>/dev/null || true)
-    fi
-
-    # Fallback to runtime env file
-    if [ -z "${DOTFILES_REPO_URL:-}" ] && [ -n "${XDG_RUNTIME_DIR:-}" ] && [ -f "$XDG_RUNTIME_DIR/dotfiles.env" ]; then
-        source "$XDG_RUNTIME_DIR/dotfiles.env"
-    fi
-
-    # Final fallback: compute from git
-    if [ -z "${DOTFILES_REPO_URL:-}" ] && [ -d "${HOME}/dotfiles" ]; then
-        DOTFILES_REPO_URL=$(cd "${HOME}/dotfiles" && git remote get-url origin 2>/dev/null || true)
-        export DOTFILES_REPO_URL
+# SSH agent - start if not already running (skip in dev containers)
+if [ -z "${REMOTE_CONTAINERS:-}" ]; then
+    export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-$HOME/.ssh}/ssh-agent.socket"
+    if ! ssh-add -l &>/dev/null; then
+        eval "$(ssh-agent -a "$SSH_AUTH_SOCK" 2>/dev/null)" >/dev/null
     fi
 fi
 

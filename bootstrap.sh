@@ -1,10 +1,10 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 # ==============================================================================
 # Dotfiles Bootstrap Script
 #
-# This script sets up the dotfiles environment by creating symlinks,
-# installing plugins, and configuring systemd services.
+# This script sets up the dotfiles environment by creating symlinks
+# and installing plugins.
 # ==============================================================================
 
 # --- Configuration and Constants ---
@@ -15,7 +15,11 @@ set -u
 set -o pipefail
 
 # Directory where this script is located.
-readonly DOTFILES_DIR="$(cd "$(dirname "${(%):-%N}")" && pwd)"
+if [[ -n "${ZSH_VERSION:-}" ]]; then
+    readonly DOTFILES_DIR="$(cd "$(dirname "${(%):-%N}")" && pwd)"
+else
+    readonly DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+fi
 
 # Directory to back up existing dotfiles.
 readonly BACKUP_DIR="$HOME/.dotfiles_backup_$(date +%Y%m%d%H%M%S)"
@@ -121,7 +125,12 @@ function manage_zsh_plugins() {
     message "yellow" "Installing/updating Zsh plugins..."
     mkdir -p "$ZSH_CUSTOM_PLUGINS_DIR"
 
-    for plugin_name in "${(@k)ZSH_PLUGINS}"; do
+    if [[ -n "${ZSH_VERSION:-}" ]]; then
+        local plugin_names=("${(@k)ZSH_PLUGINS}")
+    else
+        local plugin_names=("${!ZSH_PLUGINS[@]}")
+    fi
+    for plugin_name in "${plugin_names[@]}"; do
         local plugin_url="${ZSH_PLUGINS[$plugin_name]}"
         local plugin_dir="$ZSH_CUSTOM_PLUGINS_DIR/$plugin_name"
 
@@ -133,57 +142,6 @@ function manage_zsh_plugins() {
             (cd "$plugin_dir" && git fetch origin && git reset --hard origin/HEAD)
         fi
     done
-}
-
-# Configures and enables systemd user units.
-function setup_systemd() {
-    message "yellow" "Configuring systemd user units..."
-    local user_systemd_dir="$HOME/.config/systemd/user"
-    local user_env_dir="$HOME/.config/environment.d"
-    mkdir -p "$user_systemd_dir" "$user_env_dir"
-
-    # Symlink the ssh-agent environment configuration.
-    local ssh_conf_source="$DOTFILES_DIR/environment.d/ssh-agent.conf"
-    local ssh_conf_target="$user_env_dir/ssh-agent.conf"
-    if [[ -f "$ssh_conf_source" ]]; then
-        if [[ -L "$ssh_conf_target" && "$(readlink "$ssh_conf_target")" == "$ssh_conf_source" ]]; then
-            message "green" "SSH agent config already correct."
-        else
-            if [[ -e "$ssh_conf_target" && ! -L "$ssh_conf_target" ]]; then
-                mkdir -p "$BACKUP_DIR"
-                mv "$ssh_conf_target" "$BACKUP_DIR/"
-                message "yellow" "Backed up existing ssh-agent.conf"
-            fi
-            ln -sf "$ssh_conf_source" "$ssh_conf_target"
-            message "green" "SSH agent config symlinked."
-        fi
-    fi
-
-    # Install the dotfiles-env service.
-    local service_source="$DOTFILES_DIR/systemd/user/dotfiles-env.service"
-    local service_target="$user_systemd_dir/dotfiles-env.service"
-    local service_content
-    service_content=$(sed "s|__DOTFILES_DIR__|${DOTFILES_DIR}|g" "$service_source")
-
-    if [[ -f "$service_target" ]] && [[ "$(cat "$service_target")" == "$service_content" ]]; then
-        message "green" "dotfiles-env.service already up to date."
-    else
-        echo "$service_content" > "$service_target"
-        message "green" "dotfiles-env.service installed."
-    fi
-
-    # Enable the service if systemd is available.
-    if command -v systemctl >/dev/null 2>&1 && systemctl --user is-active --quiet dbus.service; then
-        systemctl --user daemon-reload || true
-        systemctl --user enable --now dotfiles-env.service || true
-        message "green" "dotfiles-env.service enabled and started."
-    else
-        message "yellow" "Systemd user session not available. Skipping service enable."
-    fi
-
-    # Run the environment script to apply settings for the current session.
-    message "yellow" "Applying environment settings for the current shell..."
-    "$DOTFILES_DIR/bin/get-dotfiles-env.sh"
 }
 
 # Installs zoxide (smart cd replacement).
@@ -221,7 +179,6 @@ function main() {
     manage_zsh_plugins
     install_zoxide
     install_fzf
-    setup_systemd
     message "green" "\nDotfiles setup complete!"
     message "green" "Please restart your shell or run 'source ~/.zshrc' to apply changes."
 }
