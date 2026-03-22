@@ -10,7 +10,7 @@ Personal dotfiles repository for managing zsh shell configuration and environmen
 
 ```bash
 # Install/update dotfiles (idempotent - safe to run multiple times)
-./bootstrap.sh
+./bootstrap.sh        # uses bash by default, also works with: zsh bootstrap.sh
 ```
 
 ## What Bootstrap Does
@@ -19,6 +19,7 @@ Personal dotfiles repository for managing zsh shell configuration and environmen
 2. Symlinks `.zshrc` and `.aliases` to home directory
 3. Installs/updates zsh plugins (zsh-autosuggestions, zsh-syntax-highlighting, zsh-completions)
 4. Installs zoxide (smart cd) and fzf (fuzzy finder)
+5. SSH agent is auto-started by `.zshrc` (no systemd dependency)
 
 ## Architecture
 
@@ -26,7 +27,8 @@ Personal dotfiles repository for managing zsh shell configuration and environmen
 
 | File | Purpose |
 |------|---------|
-| `.zshrc` | Oh My Zsh setup, plugins, environment |
+| `bootstrap.sh` | Setup script (bash/zsh compatible) |
+| `.zshrc` | Oh My Zsh setup, plugins, ssh-agent, environment |
 | `.aliases` | Shell aliases and utility functions (includes git aliases) |
 
 ### User Customization (not tracked)
@@ -38,4 +40,5 @@ Personal dotfiles repository for managing zsh shell configuration and environmen
 - **Idempotent**: Bootstrap can run multiple times safely (checks before modifying)
 - **Defensive scripting**: `set -e`, `set -u`, `set -o pipefail`
 - **Non-destructive**: Only backs up when actually modifying files
+- **Portable**: Bootstrap works with both bash and zsh, no systemd dependency
 - **XDG compliance**: Uses XDG Base Directory specification

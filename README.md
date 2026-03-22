@@ -10,7 +10,7 @@ cd ~/.dotfiles
 ./bootstrap.sh
 ```
 
-The script is idempotent - safe to run multiple times.
+The bootstrap script works with both bash and zsh, and is idempotent - safe to run multiple times.
 
 ## What's Included
 
@@ -18,6 +18,7 @@ The script is idempotent - safe to run multiple times.
 
 - **Oh My Zsh** with robbyrussell theme
 - **Plugins**: git, zsh-autosuggestions, zsh-syntax-highlighting, zsh-completions
+- **SSH agent**: auto-started if not already running (no systemd dependency)
 
 ### Tools
 
